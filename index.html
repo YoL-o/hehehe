@@ -99,6 +99,53 @@
             stroke: #000000;
             fill: none
         }
+
+        @media (max-width: 768px) {
+
+            /* Tablet styles */
+            .container {
+                top: 50%;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            svg {
+                width: 800px;
+            }
+
+            .form-container {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            /* Mobile styles */
+            .container {
+                top: 50%;
+                transform: translate(-50%, -50%) scale(0.6);
+            }
+
+            svg {
+                width: 600px;
+            }
+
+            .form-container {
+                width: 180px;
+            }
+
+            .form-container .form-row {
+                height: 50px;
+            }
+
+            .form-container .form-row input {
+                height: 25px;
+                font-size: 14px;
+            }
+
+            .form-container .form-row input[type="submit"] {
+                height: 35px;
+            }
+        }
     </style>
 </head>
 
@@ -994,6 +1041,32 @@
 
             return tl;
         }
+        // Enhanced scaleToFit function
+        function scaleToFit() {
+            const h = 800;
+            let scaleFactor = 1;
+
+            if (window.innerWidth <= 480) {
+                // Mobile
+                scaleFactor = Math.min(window.innerHeight / h, 0.6);
+            } else if (window.innerWidth <= 768) {
+                // Tablet
+                scaleFactor = Math.min(window.innerHeight / h, 0.8);
+            } else if (window.innerHeight < h) {
+                // Desktop with small height
+                scaleFactor = window.innerHeight / h;
+            }
+
+            gsap.set(containerEl, {
+                scale: scaleFactor,
+                transformOrigin: "50% 50%"
+            });
+        }
+
+        // Call it initially and on resize
+        scaleToFit();
+        window.addEventListener('resize', scaleToFit);
+        window.addEventListener('orientationchange', scaleToFit);
     </script>
 </body>
 
